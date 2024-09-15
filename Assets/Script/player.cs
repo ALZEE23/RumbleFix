@@ -12,6 +12,7 @@ public class player : MonoBehaviour
     public float gravity = 20.0f;
 
     public bool turnbase;
+    
 
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
@@ -24,6 +25,7 @@ public class player : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public GameObject camera1;
     public GameObject camera2;
+    public GameObject turnUi;
 
 
     [HideInInspector]
@@ -93,6 +95,7 @@ public class player : MonoBehaviour
              camera1.gameObject.SetActive(false);
             camera2.gameObject.SetActive(true);
             characterController.enabled = false;
+            //turnUi.SetActive(true);
         }
         else
         {
@@ -100,6 +103,7 @@ public class player : MonoBehaviour
             camera2.gameObject.SetActive(false);
             lookAnimator.SetBool("turnbase", false);
             characterController.enabled = true;
+            
         }
 
         // Player and Camera rotation
