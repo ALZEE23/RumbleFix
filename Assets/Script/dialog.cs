@@ -1,15 +1,18 @@
-﻿using System;
+using System;
 using System.Linq;
 using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BasicInkExample : MonoBehaviour
+public class dialog : MonoBehaviour
 {
-    //public float wisdomBar;
-    //public float knowledgeBar;
-    //public float empathyBar;
     public static event Action<Story> OnCreateStory;
+
+    // Tambahkan referensi ke kontainer baru
+    [SerializeField]
+    private GameObject contentPanel; // Kontainer untuk teks cerita
+    [SerializeField]
+    private GameObject choicesPanel; // Kontainer untuk pilihan
 
     void Awake()
     {
@@ -26,21 +29,17 @@ public class BasicInkExample : MonoBehaviour
 
     void RefreshView()
     {
-
         RemoveChildren();
 
-
+        // Menampilkan teks cerita
         while (story.canContinue)
         {
-
             string text = story.Continue();
             text = text.Trim();
-
- 
             CreateContentView(text);
         }
 
-
+        // Menampilkan pilihan (Choices)
         if (story.currentChoices.Count > 0)
         {
             for (int i = 0; i < story.currentChoices.Count; i++)
@@ -55,67 +54,49 @@ public class BasicInkExample : MonoBehaviour
         else
         {
             UnityEngine.UI.Button choice = CreateChoiceView("End of story.\nRestart?");
-            //choice.onClick.AddListener(delegate {
-            //    StartStory();
-            //});
+            choice.onClick.AddListener(delegate {
+                StartStory();
+            });
         }
-
-
-        float knowledge = story.variablesState.Contains("knowledge") ? Convert.ToSingle(story.variablesState["knowledge"]) : 0;
-        float wisdom = story.variablesState.Contains("wisdom") ? Convert.ToSingle(story.variablesState["wisdom"]) : 0;
-        float empathy = story.variablesState.Contains("empathy") ? Convert.ToSingle(story.variablesState["empathy"]) : 0;
-
-
-        Debug.Log("Knowledge: " + knowledge);
-        Debug.Log("Wisdom: " + wisdom);
-        Debug.Log("Empathy: " + empathy);
-
-        UpdatePointsUI(knowledge, wisdom, empathy);
     }
-
 
     void OnClickChoiceButton(Choice choice)
     {
         story.ChooseChoiceIndex(choice.index);
-
         RefreshView();
-    }
-
-    void UpdatePointsUI(float knowledge, float wisdom, float empathy)
-    {
-        Debug.Log("Knowledge: " + knowledge + ", Wisdom: " + wisdom + ", Empathy: " + empathy);
-        PlayerPoints.knowledge = knowledge;
-        PlayerPoints.wisdom = wisdom;
-        PlayerPoints.empathy = empathy;
     }
 
     void CreateContentView(string text)
     {
         Text storyText = Instantiate(textPrefab) as Text;
         storyText.text = text;
-        storyText.transform.SetParent(canvas.transform, false);
+        // Mengatur `parent` menjadi `contentPanel` untuk teks cerita
+        storyText.transform.SetParent(contentPanel.transform, false);
     }
 
     UnityEngine.UI.Button CreateChoiceView(string text)
     {
         UnityEngine.UI.Button choice = Instantiate(buttonPrefab) as UnityEngine.UI.Button;
-        choice.transform.SetParent(canvas.transform, false);
+        // Mengatur `parent` menjadi `choicesPanel` untuk pilihan
+        choice.transform.SetParent(choicesPanel.transform, false);
 
         Text choiceText = choice.GetComponentInChildren<Text>();
         choiceText.text = text;
-
-        HorizontalLayoutGroup layoutGroup = choice.GetComponent<HorizontalLayoutGroup>();
-        layoutGroup.childForceExpandHeight = false;
 
         return choice;
     }
 
     void RemoveChildren()
     {
-        int childCount = canvas.transform.childCount;
-        for (int i = childCount - 1; i >= 0; --i)
+        // Menghapus anak-anak dari kontainer masing-masing
+        foreach (Transform child in contentPanel.transform)
         {
-            Destroy(canvas.transform.GetChild(i).gameObject);
+            Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in choicesPanel.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 
@@ -124,17 +105,7 @@ public class BasicInkExample : MonoBehaviour
     public Story story;
 
     [SerializeField]
-    private Canvas canvas = null;
-
-    [SerializeField]
     private Text textPrefab = null;
     [SerializeField]
     private UnityEngine.UI.Button buttonPrefab = null;
-}
-
-public static class PlayerPoints
-{
-    public static float knowledge;
-    public static float wisdom;
-    public static float empathy;
 }

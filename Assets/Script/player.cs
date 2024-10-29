@@ -11,6 +11,10 @@ public class player : MonoBehaviour
     public float jumpSpeed = 8.0f;
     public float gravity = 70.0f;
 
+    public float knowledge;
+    public float wisdom;
+    public float empathy;
+
     public bool turnbase;
     
 
@@ -30,6 +34,7 @@ public class player : MonoBehaviour
 
     [HideInInspector]
     public bool canMove = true;
+    private bool facingRight = false;
 
     void Start()
     {
@@ -52,14 +57,6 @@ public class player : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        //if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        //{
-        //    moveDirection.y = jumpSpeed;
-        //}
-        //else
-        //{
-        //    moveDirection.y = movementDirectionY;
-        //}
 
 
         if (!characterController.isGrounded)
@@ -68,15 +65,23 @@ public class player : MonoBehaviour
         }
 
         characterController.Move(moveDirection * Time.deltaTime);
-        
-        if (moveDirection.x < 0)
+
+       if ( moveDirection.x !=0)
         {
-            spriteRenderer.flipX = true;
-           
+         if (moveDirection.x < 0)
+         {
+           spriteRenderer.flipX = true;
+           facingRight = false;
+            } else
+          {
+           spriteRenderer.flipX = false;
+                facingRight = true;
+            }
         } else
         {
-            spriteRenderer.flipX = false;
+            spriteRenderer.flipX = !facingRight;
         }
+       
 
         if (moveDirection.x < 0 || moveDirection.x > 0)
         {
