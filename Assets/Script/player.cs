@@ -16,6 +16,7 @@ public class player : MonoBehaviour
     public float empathy;
 
     public bool turnbase;
+    public bool flipping;
     
 
     public float lookSpeed = 2.0f;
@@ -95,7 +96,7 @@ public class player : MonoBehaviour
         {
             moveDirection.x = 0;
             moveDirection.y = 0;
-            spriteRenderer.flipX = true;
+            spriteRenderer.flipX = flipping;
             lookAnimator.SetBool("turnbase", true);
              camera1.gameObject.SetActive(false);
             camera2.gameObject.SetActive(true);
