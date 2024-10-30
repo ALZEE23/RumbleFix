@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using Ink.Runtime;
 public class turnbase : MonoBehaviour
 {
     public player Player;
     public GameObject ui1;
     public GameObject ui2;
     public bool flip;
+
+  
     //public GameObject ui2;
     //public GameObject ui3;
     // Start is called before the first frame update
@@ -18,8 +20,11 @@ public class turnbase : MonoBehaviour
         {
            Player = Player.GetComponent<player>();
            Player.turnbase = true;
-            Player.flipping = flip;
+           Player.flipping = flip;
 
+
+
+            
            ui1.SetActive(true);
            ui2.SetActive(true);
         }

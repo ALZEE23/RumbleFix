@@ -7,7 +7,11 @@ using UnityEngine.UI;
 public class dialog : MonoBehaviour
 {
     public static event Action<Story> OnCreateStory;
-
+    public player player;
+    public bool last;
+    public GameObject canvas1;
+    public GameObject canvas2;
+    public GameObject box;
     // Tambahkan referensi ke kontainer baru
     [SerializeField]
     private GameObject contentPanel; // Kontainer untuk teks cerita
@@ -50,14 +54,52 @@ public class dialog : MonoBehaviour
                     OnClickChoiceButton(choice);
                 });
             }
-        }
-        else
+        } else if (last == true && player.empathy < 8)
         {
-            UnityEngine.UI.Button choice = CreateChoiceView("End of story.\nRestart?");
+            UnityEngine.UI.Button choice = CreateChoiceView(".....");
             choice.onClick.AddListener(delegate {
+                player.turnbase = false;
+                canvas1.SetActive(true);
+                box.SetActive(false);
+                this.gameObject.SetActive(false);
                 StartStory();
             });
         }
+        else if (last == true && player.empathy >= 8)
+        {
+            UnityEngine.UI.Button choice = CreateChoiceView(".....");
+            choice.onClick.AddListener(delegate {
+                player.turnbase = false;
+                canvas2.SetActive(true);
+                box.SetActive(false);
+                this.gameObject.SetActive(false);
+                StartStory();
+            });
+        }
+        else 
+        {
+            UnityEngine.UI.Button choice = CreateChoiceView(".....");
+            choice.onClick.AddListener(delegate{
+                player.turnbase = false;
+                box.SetActive(false);
+                this.gameObject.SetActive(false);
+                StartStory();
+            });
+        }
+
+        float knowledge = story.variablesState.Contains("knowledge") ? Convert.ToSingle(story.variablesState["knowledge"]) : 0;
+        float wisdom = story.variablesState.Contains("wisdom") ? Convert.ToSingle(story.variablesState["wisdom"]) : 0;
+        float empathy = story.variablesState.Contains("empathy") ? Convert.ToSingle(story.variablesState["empathy"]) : 0;
+
+        UpdatePointsUI(knowledge, wisdom, empathy);
+    }
+
+    void UpdatePointsUI(float knowledge, float wisdom, float empathy)
+    {
+        Debug.Log("Knowledge: " + knowledge + ", Wisdom: " + wisdom + ", Empathy: " + empathy);
+        player.knowledge += knowledge;
+        player.wisdom += wisdom;
+        player.empathy += empathy;
     }
 
     void OnClickChoiceButton(Choice choice)
@@ -101,7 +143,7 @@ public class dialog : MonoBehaviour
     }
 
     [SerializeField]
-    private TextAsset inkJSONAsset = null;
+    public TextAsset inkJSONAsset = null;
     public Story story;
 
     [SerializeField]

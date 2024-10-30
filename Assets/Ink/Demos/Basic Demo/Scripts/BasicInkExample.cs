@@ -10,6 +10,7 @@ public class BasicInkExample : MonoBehaviour
     //public float knowledgeBar;
     //public float empathyBar;
     public static event Action<Story> OnCreateStory;
+    public player player;
 
     void Awake()
     {
@@ -84,9 +85,9 @@ public class BasicInkExample : MonoBehaviour
     void UpdatePointsUI(float knowledge, float wisdom, float empathy)
     {
         Debug.Log("Knowledge: " + knowledge + ", Wisdom: " + wisdom + ", Empathy: " + empathy);
-        PlayerPoints.knowledge = knowledge;
-        PlayerPoints.wisdom = wisdom;
-        PlayerPoints.empathy = empathy;
+        player.knowledge += knowledge;
+        player.wisdom += wisdom;
+        player.empathy += empathy;
     }
 
     void CreateContentView(string text)
