@@ -1,7 +1,6 @@
 ﻿Unity Sample Project
 ==================
 
-<img width="100%" src="./PiratePanic/Assets/PiratePanic/Documentation/Images/Battle_Screenshot.png">
 
 ## Welcome to "Rumble Academia" !
 
@@ -34,21 +33,12 @@ These docs provide everything you need to download the Unity game, run the Nakam
 
 The repo includes these scenes for the sample game project.
 
-<img width="100%" src="./PiratePanic/Assets/PiratePanic/Documentation/Images/MainMenu_Screenshot.png">
-
-* **Scene01MainMenu** (<a target="_blank" href="./PiratePanic/Assets/PiratePanic/Scripts/Scene01MainMenuController.cs">Source</a>) - This is the main entry point for the game. **Play this scene first**.
-* **Scene02Battle** (<a target="_blank" href="./PiratePanic/Assets/PiratePanic/Scripts/Scene02BattleController.cs">Source</a>) - The core game loop.
-
 ## Constants & Configuration
 
 #### Pirate Panic Game
 
 The game centralizes some values which are intended for tweaking and experimentation by game developers.
 
-<img width="655" src="./PiratePanic/Assets/PiratePanic/Documentation/Images/GameConfiguration_Screenshot.png">
-
-* **GameConfiguration** (<a target="_blank" href="./PiratePanic/Assets/PiratePanic/Scripts/GameConfiguration.cs">Source</a>) - Stores commonly used values which may be changed at edit-time and runtime.
-* **GameConstants** (<a target="_blank" href="./PiratePanic/Assets/PiratePanic/Scripts/GameConstants.cs">Source</a>) - Stores commonly used values which may be changed at edit-time.
 
 ## Getting Started
 
